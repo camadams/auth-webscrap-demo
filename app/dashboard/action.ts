@@ -1,12 +1,28 @@
 "use server";
 import puppeteer from "puppeteer";
 
+const chrome = require("chrome-aws-lambda");
+
 export async function scrap(_: any, formData: FormData) {
+  let options = {};
+
+  if (process.env.AWS_LAMBDA_FUNCTION_VERSION) {
+    options = {
+      args: [...chrome.args, "--hide-scrollbars", "--disable-web-security"],
+      defaultViewport: chrome.defaultViewport,
+      executablePath: await chrome.executablePath,
+      headless: true,
+      ignoreHTTPSErrors: true,
+    };
+  } else {
+    options = { headless: true };
+  }
+
   const airbnbUrl = formData.get("airbnbUrl") as string;
 
   let browser;
   try {
-    browser = await puppeteer.launch();
+    browser = await puppeteer.launch(options);
     const page = await browser.newPage();
     page.setDefaultNavigationTimeout(0);
 
