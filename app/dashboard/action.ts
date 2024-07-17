@@ -1,12 +1,16 @@
 "use server";
 import puppeteer from "puppeteer";
-
-const chrome = require("chrome-aws-lambda");
+import chrome from "chrome-aws-lambda";
+import * as puppeteercore from "puppeteer-core";
 
 export async function scrap(_: any, formData: FormData) {
+  const isAWSLambda = !!process.env.AWS_LAMBDA_FUNCTION_VERSION;
+
+  // const { chrome, puppeteer } = await loadDependencies(isAWSLambda);
+
   let options = {};
 
-  if (process.env.AWS_LAMBDA_FUNCTION_VERSION) {
+  if (isAWSLambda && chrome) {
     options = {
       args: [...chrome.args, "--hide-scrollbars", "--disable-web-security"],
       defaultViewport: chrome.defaultViewport,
@@ -22,7 +26,10 @@ export async function scrap(_: any, formData: FormData) {
 
   let browser;
   try {
-    browser = await puppeteer.launch(options);
+    // browser = await (isAWSLambda ? puppeteercore : puppeteer).launch(options);
+
+    // browser = await puppeteer.launch(options);
+    browser = await puppeteercore.launch(options);
     const page = await browser.newPage();
     page.setDefaultNavigationTimeout(0);
 
@@ -44,5 +51,16 @@ export async function scrap(_: any, formData: FormData) {
     if (browser) {
       await browser.close();
     }
+  }
+}
+
+async function loadDependencies(isAWSLambda: boolean) {
+  if (isAWSLambda) {
+    const chrome = await import("chrome-aws-lambda");
+    const puppeteer = await import("puppeteer-core");
+    return { chrome, puppeteer };
+  } else {
+    const puppeteer = await import("puppeteer");
+    return { chrome: null, puppeteer };
   }
 }
