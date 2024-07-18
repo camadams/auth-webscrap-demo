@@ -111,7 +111,7 @@ export default function Dashboard() {
 function SubmitButton() {
   const status = useFormStatus();
   return (
-    <button className="ml-2  bg-red-400 p-4 text-white rounded-full p-3">
+    <button className="ml-2  bg-red-400 p-4 text-white rounded-full">
       {status.pending ? <Spinner /> : <Arrow />}
     </button>
   );
