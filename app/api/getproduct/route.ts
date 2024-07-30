@@ -13,7 +13,7 @@ export async function GET() {
   const res = await fetch(endpoint, { headers });
 
   const resJson = await res.json();
-  const user_email = resJson.data.attributes.name as string;
+  // const user_email = resJson.data.attributes.name as string;
 
-  return NextResponse.json(user_email);
+  return NextResponse.json({ implement: 1 });
 }
