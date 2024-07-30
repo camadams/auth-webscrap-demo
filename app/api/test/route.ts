@@ -1,4 +1,5 @@
 import chromium from "@sparticuz/chromium";
+import { NextResponse } from "next/server";
 import puppeteer from "puppeteer";
 
 // const { createClient } = require("@libsql/client");
@@ -55,12 +56,12 @@ export async function POST() {
     });
   } catch (error) {
     console.log("error at index.js", (error as Error).message);
-    return new Response("ok", { status: 400 });
+    return NextResponse.json((error as Error).message, { status: 400 });
   } finally {
     if (browser !== null) {
       await browser.close();
     }
   }
 
-  return resp;
+  return NextResponse.json(resp, { status: 200 });
 }
