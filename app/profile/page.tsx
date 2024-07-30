@@ -5,7 +5,7 @@ import Navbar from "../navbar";
 import { useEffect, useState } from "react";
 import { validateRequest } from "@/lib/validate-request";
 import { redirect } from "next/navigation";
-import { useMutation, useQuery } from "@tanstack/react-query";
+// import { useMutation, useQuery } from "@tanstack/react-query";
 import { getProduct } from "./action";
 import { Product } from "@lemonsqueezy/lemonsqueezy.js";
 
@@ -20,10 +20,10 @@ export default function Profile() {
     return (await response.text()) as string;
   };
 
-  const { data, isLoading } = useQuery({
-    queryKey: ["getproducts"],
-    queryFn: getProduct,
-  });
+  // const { data, isLoading } = useQuery({
+  //   queryKey: ["getproducts"],
+  //   queryFn: getProduct,
+  // });
 
   useEffect(() => {
     const fetchUser = async () => {
