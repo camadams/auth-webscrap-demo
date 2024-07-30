@@ -1,4 +1,3 @@
-import { sql } from "drizzle-orm";
 import { integer, sqliteTable, text } from "drizzle-orm/sqlite-core";
 
 export const userTable = sqliteTable("user", {
@@ -6,6 +5,7 @@ export const userTable = sqliteTable("user", {
   id: text("id").notNull().primaryKey(),
   username: text("username").notNull().unique(),
   password_hash: text("password_hash").notNull(),
+  // notificationsCount: integer("notifications_count").notNull().default(0),
 });
 
 export const sessionTable = sqliteTable("session", {
