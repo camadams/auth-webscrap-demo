@@ -1,7 +1,7 @@
 import chromium from "@sparticuz/chromium";
 import { NextResponse } from "next/server";
 import puppeteer from "puppeteer";
-
+export const maxDuration = 30;
 // const { createClient } = require("@libsql/client");
 
 export async function GET() {
