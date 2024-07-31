@@ -2,7 +2,6 @@ import { validateRequest } from "@/lib/validate-request";
 import Link from "next/link";
 import { logout } from "./actions";
 import Image from "next/image";
-export const revalidate = 0;
 export default async function Home() {
   //   const posts = await db.query.postsTable.findMany();
   const { user } = await validateRequest();
